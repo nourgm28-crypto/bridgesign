@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BridgeSign — Bridging Communication Gaps</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sage:       #818362;
+      --sage-light: #a0a57e;
+      --burgundy:   #691420;
+      --cream:      #F1F1E8;
+      --rose:       #AC8E85;
+      --dark:       #1E202B;
+      --white:      #FFFFFF;
+      --muted:      #6b6b6b;
+      --radius:     14px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 60px;
+      background: rgba(241,241,232,0.93);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(129,131,98,0.15);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 700; color: var(--dark);
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .logo-dot { color: var(--burgundy); }
+    .logo-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--sage); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .nav-links { display: flex; align-items: center; gap: 36px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--sage); }
+    .nav-cta { background: var(--sage) !important; color: var(--white) !important; padding: 10px 24px; border-radius: 50px; font-weight: 500 !important; transition: background .2s, transform .15s !important; }
+    .nav-cta:hover { background: var(--sage-light) !important; transform: translateY(-1px); }
+
+    /* HERO */
+    .hero-wrap { background: var(--cream); }
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 60px 80px;
+      gap: 60px; max-width: 1300px; margin: 0 auto;
+    }
+    .hero-left { display: flex; flex-direction: column; gap: 28px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(129,131,98,0.12); color: var(--sage);
+      border: 1px solid rgba(129,131,98,0.25);
+      padding: 8px 18px; border-radius: 50px;
+      font-size: 13px; font-weight: 500; width: fit-content;
+      animation: fadeLeft .6s ease both;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(42px, 4.5vw, 68px); font-weight: 700; line-height: 1.1;
+      animation: fadeLeft .7s ease both;
+    }
+    .hero h1 em { font-style: italic; color: var(--burgundy); }
+    .hero-desc { font-size: 16px; color: var(--muted); line-height: 1.8; max-width: 480px; animation: fadeLeft .8s ease both; }
+    .hero-btns { display: flex; gap: 14px; animation: fadeLeft .9s ease both; }
+    .btn-primary {
+      background: var(--sage); color: var(--white);
+      padding: 15px 34px; border-radius: 50px;
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      border: none; cursor: pointer;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 6px 20px rgba(129,131,98,0.35);
+    }
+    .btn-primary:hover { background: var(--sage-light); transform: translateY(-2px); }
+    .btn-secondary {
+      background: transparent; color: var(--dark);
+      padding: 15px 34px; border-radius: 50px;
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      border: 2px solid rgba(30,32,43,0.2); cursor: pointer;
+      transition: border-color .2s, transform .15s, color .2s;
+    }
+    .btn-secondary:hover { border-color: var(--sage); color: var(--sage); transform: translateY(-2px); }
+
+    /* Hero right cards */
+    .hero-right { display: flex; flex-direction: column; gap: 16px; animation: fadeRight .8s ease both; }
+    .hero-card-main {
+      background: var(--white); border-radius: 24px; padding: 36px;
+      border: 1px solid rgba(129,131,98,0.15);
+      box-shadow: 0 20px 60px rgba(30,32,43,0.08);
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .card-tag { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--sage); }
+    .card-visual {
+      background: rgba(129,131,98,0.08); border-radius: 16px; height: 160px;
+      display: flex; align-items: center; justify-content: center; font-size: 72px;
+    }
+    .hero-card-main p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .hero-cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .hero-card-sm {
+      background: var(--white); border-radius: 16px; padding: 22px;
+      border: 1px solid rgba(129,131,98,0.12);
+      box-shadow: 0 8px 24px rgba(30,32,43,0.05);
+    }
+    .hero-card-sm .sm-icon { font-size: 28px; margin-bottom: 10px; }
+    .hero-card-sm h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .hero-card-sm p  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* STATS */
+    .stats-bar {
+      background: var(--dark); padding: 36px 60px;
+      display: flex; justify-content: center; gap: 80px;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 700; color: var(--rose); }
+    .stat-label { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+    /* SECTIONS */
+    .section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+    .section-tag { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--burgundy); margin-bottom: 12px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 3vw, 48px); font-weight: 700; line-height: 1.2; max-width: 520px; }
+    .section-title em { font-style: italic; color: var(--sage); }
+
+    /* HOW IT WORKS */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 56px; }
+    .step {
+      background: var(--white); border-radius: var(--radius); padding: 36px 28px;
+      border: 1px solid rgba(129,131,98,0.12);
+      transition: transform .2s, box-shadow .2s; position: relative;
+    }
+    .step:hover { transform: translateY(-6px); box-shadow: 0 24px 56px rgba(30,32,43,0.1); }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 700;
+      color: rgba(129,131,98,0.1); position: absolute; top: 12px; right: 18px; line-height: 1;
+    }
+    .step-icon { width: 54px; height: 54px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px; }
+    .step:nth-child(1) .step-icon { background: rgba(129,131,98,0.1); }
+    .step:nth-child(2) .step-icon { background: rgba(105,20,32,0.08); }
+    .step:nth-child(3) .step-icon { background: rgba(172,142,133,0.15); }
+    .step h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+    .step p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* HELPS SECTION */
+    .helps-section { background: var(--dark); padding: 100px 60px; }
+    .helps-inner { max-width: 1200px; margin: 0 auto; }
+    .helps-section .section-tag { color: var(--rose); }
+    .helps-section .section-title { color: var(--white); }
+    .helps-section .section-title em { color: var(--sage-light); }
+    .helps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 56px; }
+    .help-card {
+      border-radius: var(--radius); padding: 36px;
+      border: 1px solid rgba(255,255,255,0.07);
+      display: flex; gap: 24px; align-items: flex-start;
+      transition: transform .2s, border-color .2s;
+    }
+    .help-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+    .help-card:nth-child(1) { background: rgba(129,131,98,0.12); }
+    .help-card:nth-child(2) { background: rgba(105,20,32,0.15); }
+    .help-card:nth-child(3) { background: rgba(172,142,133,0.1); }
+    .help-card:nth-child(4) { background: rgba(129,131,98,0.07); }
+    .help-icon {
+      width: 60px; height: 60px; border-radius: 14px; flex-shrink: 0;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center; font-size: 28px;
+      /* To replace with image: background-image: url('img.jpg'); background-size: cover; */
+    }
+    .help-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+    .help-content p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+    /* USER TYPES */
+    .users-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+    .user-card {
+      background: var(--white); border-radius: var(--radius); padding: 36px 28px;
+      border: 1px solid rgba(129,131,98,0.15);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .user-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(30,32,43,0.08); }
+    .user-card:nth-child(1) { border-top: 4px solid var(--sage); }
+    .user-card:nth-child(2) { border-top: 4px solid var(--burgundy); }
+    .user-card:nth-child(3) { border-top: 4px solid var(--rose); }
+    .user-avatar { font-size: 40px; margin-bottom: 18px; }
+    .user-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .user-card > p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+    .user-features { display: flex; flex-direction: column; gap: 8px; }
+    .user-feature { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--dark); }
+    .check { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; color: var(--white); }
+    .user-card:nth-child(1) .check { background: var(--sage); }
+    .user-card:nth-child(2) .check { background: var(--burgundy); }
+    .user-card:nth-child(3) .check { background: var(--rose); }
+
+    /* CTA */
+    .cta-section { background: var(--sage); padding: 100px 60px; text-align: center; }
+    .cta-section h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 54px); font-weight: 700; color: var(--white); max-width: 600px; margin: 0 auto 20px; line-height: 1.2; }
+    .cta-section p { color: rgba(255,255,255,0.75); font-size: 16px; margin-bottom: 40px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; }
+    .btn-white { background: var(--white); color: var(--sage); padding: 15px 36px; border-radius: 50px; font-size: 15px; font-weight: 600; text-decoration: none; transition: transform .15s, box-shadow .2s; box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,0.2); }
+    .btn-outline-white { background: transparent; color: var(--white); padding: 15px 36px; border-radius: 50px; font-size: 15px; font-weight: 600; text-decoration: none; border: 2px solid rgba(255,255,255,0.5); transition: border-color .2s, transform .15s; }
+    .btn-outline-white:hover { border-color: var(--white); transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,0.4); padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--white); }
+    .footer-logo span { color: var(--rose); }
+
+    /* ANIMATIONS */
+    @keyframes fadeLeft { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeRight { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+      .hero-right { display: none; }
+      .section { padding: 60px 24px; }
+      .steps, .helps-grid, .users-grid { grid-template-columns: 1fr; }
+      .stats-bar { gap: 32px; flex-wrap: wrap; padding: 32px 24px; }
+      .cta-btns { flex-direction: column; align-items: center; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">🤝</div>
+    Bridge<span class="logo-dot">Sign</span>
+  </a>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#how">How it works</a>
+    <a href="#users">For Who</a>
+    <a href="login.html" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-badge">🌍 Breaking Communication Barriers</div>
+      <h1>Bridging the Gap Between<br/><em>Deaf & Hearing</em><br/>Communities</h1>
+      <p class="hero-desc">A real-time web platform that translates sign language gestures into text and speech — and converts voice messages into visual signs. Communication for everyone, everywhere.</p>
+      <div class="hero-btns">
+        <a href="login.html" class="btn-primary">Create Free Account</a>
+        <a href="#how" class="btn-secondary">See How It Works</a>
+      </div>
+    </div>
+    <div style="text-align: center;">
+    <img src="photo.index.png" alt="Deaf dashboard image" width="500" height="350">
+</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">2</div><div class="stat-label">Communication Modes</div></div>
+  <div class="stat"><div class="stat-num">ASL</div><div class="stat-label">Sign Language Supported</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Web Based — No Install</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">User Roles</div></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-tag">How It Works</div>
+  <div class="section-title">Simple, Fast, <em>Accessible</em></div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon">📷</div>
+      <h3>Deaf User Signs</h3>
+      <p>The deaf user performs a sign in front of the camera. MediaPipe tracks hand landmarks and translates the gesture into text or speech in real time.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon">🎙️</div>
+      <h3>Hearing User Speaks</h3>
+      <p>The hearing user speaks naturally or types a message. The system converts speech to text via Google STT, then maps it to sign language visuals.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon">⚡</div>
+      <h3>Instant Translation</h3>
+      <p>Both users receive translated content immediately — no sign language knowledge required from either side.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT HELPS -->
+<section class="helps-section">
+  <div class="helps-inner">
+    <div class="section-tag">Why It Matters</div>
+    <div class="section-title">How BridgeSign <em>Helps</em> Deaf Individuals</div>
+    <div class="helps-grid">
+      <div class="help-card">
+        <div class="help-icon">🏥</div>
+        <div class="help-content">
+          <h3>Medical Appointments</h3>
+          <p>Deaf patients can communicate with doctors and nurses directly without needing a sign language interpreter present.</p>
+        </div>
+      </div>
+      <div class="help-card">
+        <div class="help-icon">🎓</div>
+        <div class="help-content">
+          <h3>Education Access</h3>
+          <p>Students with hearing impairments can participate in classroom discussions and communicate with teachers effectively.</p>
+        </div>
+      </div>
+      <div class="help-card">
+        <div class="help-icon">🛒</div>
+        <div class="help-content">
+          <h3>Daily Interactions</h3>
+          <p>From shopping to public services — deaf individuals can interact with hearing people independently in everyday situations.</p>
+        </div>
+      </div>
+      <div class="help-card">
+        <div class="help-icon">👨‍👩‍👧</div>
+        <div class="help-content">
+          <h3>Family Communication</h3>
+          <p>Families with both deaf and hearing members can communicate naturally without barriers or misunderstandings.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USER TYPES -->
+<section class="section" id="users">
+  <div class="section-tag">Who Is It For?</div>
+  <div class="section-title">Designed for <em>Everyone</em></div>
+  <div class="users-grid">
+    <div class="user-card">
+      <div class="user-avatar">🧏</div>
+      <h3>Deaf Users</h3>
+      <p>Communicate naturally using sign language. The system translates your gestures instantly for hearing users.</p>
+      <div class="user-features">
+        <div class="user-feature"><span class="check">✓</span> Capture sign via camera</div>
+        <div class="user-feature"><span class="check">✓</span> View translated text</div>
+        <div class="user-feature"><span class="check">✓</span> View sign representations</div>
+        <div class="user-feature"><span class="check">✓</span> Access translation history</div>
+      </div>
+    </div>
+    <div class="user-card">
+      <div class="user-avatar">🗣️</div>
+      <h3>Hearing Users</h3>
+      <p>Speak or type normally. Your message is instantly converted into sign language visuals for the deaf user.</p>
+      <div class="user-features">
+        <div class="user-feature"><span class="check">✓</span> Record voice messages</div>
+        <div class="user-feature"><span class="check">✓</span> Write text messages</div>
+        <div class="user-feature"><span class="check">✓</span> Hear synthesized speech</div>
+        <div class="user-feature"><span class="check">✓</span> Access translation history</div>
+      </div>
+    </div>
+    <div class="user-card">
+      <div class="user-avatar">🛡️</div>
+      <h3>Administrators</h3>
+      <p>Manage the platform, update sign mappings, monitor system activity and ensure everything runs smoothly.</p>
+      <div class="user-features">
+        <div class="user-feature"><span class="check">✓</span> Manage user accounts</div>
+        <div class="user-feature"><span class="check">✓</span> Update mapping data</div>
+        <div class="user-feature"><span class="check">✓</span> Monitor system logs</div>
+        <div class="user-feature"><span class="check">✓</span> Consult platform data</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to Start Communicating?</h2>
+  <p>Join BridgeSign today and experience barrier-free communication for everyone.</p>
+  <div class="cta-btns">
+    <a href="register.html" class="btn-white">Create Free Account</a>
+    <a href="login.html" class="btn-outline-white">Sign In</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Bridge<span>Sign</span></div>
+  <p>© 2026 BridgeSign · University of Constantine 2 · L3-SI · Dr. Bouleghlimat</p>
+</footer>
+
+</body>
+</html>
